@@ -306,9 +306,7 @@ def lstm_draw():
     print(mean_absolute_percentage_error(test, predictions))
     from matplotlib import pyplot
 
-    # line plot of observed vs predicted
-    pyplot.plot(test, label='Test')
-    pyplot.plot(predictions, label='Predictions')
+
 
     path = r'C:/Users/Liya/AD/project'
 
@@ -319,7 +317,6 @@ def lstm_draw():
 
     series = pd.read_csv('C:/Users/Liya/AD/project/series.csv', header=0, parse_dates=[0], index_col=0, squeeze=True,
                          date_parser=parser)
-    print(series.head())
 
     def timeseries_to_supervised(data, lag=1):
         df = pd.DataFrame(data)
@@ -380,7 +377,6 @@ def lstm_draw():
 
     series = pd.read_csv('C:/Users/Liya/AD/project/series.csv', header=0, parse_dates=[0], index_col=0, squeeze=True,
                          date_parser=parser)
-    print(series.head())
 
     raw_values = series.values
     diff_values = difference(raw_values, 1)
@@ -414,13 +410,15 @@ def lstm_draw():
         # store forecast
         predictions.append(yhat)
         expected = raw_values[len(train) + i + 1]
-        print('day=%d, Predicted=%f, Expected=%f' % (i + 1, yhat, expected))
+        st.markdown('day=%d, Predicted=%f, Expected=%f' % (i + 1, yhat, expected))
 
     # report performance
     rmse = sqrt(mean_squared_error(raw_values[231:], predictions))
-    st.markdown('Test RMSE: %.3f' + str(rmse))
+    st.markdown('Test RMSE: ' + str(rmse))
 
-    # line plot of observed vs predicted
+    # line plot of observed vs predicted\
+    pyplot.plot(test, label='Test')
+    pyplot.plot(predictions, label='Predictions')
     pyplot.plot(raw_values[231:])
     pyplot.plot(predictions)
     st.pyplot(pyplot)
@@ -476,5 +474,4 @@ elif todo_selectbox == "Обучение модели":
         lstm_draw()
     elif visualize_selectbox == "ARIMA":
         sarimax()
-    elif visualize_selectbox == "ARIMA":
-        pass
+
